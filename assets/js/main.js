@@ -103,7 +103,7 @@ function updateHTMl(data) {
             </div>
         </div>
         <p>${memoContREG}</p>
-        
+        <div class="memos__content" data-avatar="${item.account.avatar}"></div>
         <div class="memos__meta">
         <small class="memos__date">${relativeTime} • From「<a href="${item.url}" target="_blank">memos</a>」</small>
         </div> 
@@ -112,20 +112,7 @@ function updateHTMl(data) {
 
     const memoBefore = '<ul class="">';
     const memoAfter = '</ul>';
-    const memocss = '<style>.memos__content:before {
-    content: '';
-    position: absolute;
-    background: url('${item.account.avatar}') no-repeat;
-    background-size: contain;
-    width: 40px;
-    height: 40px;
-    border-radius: 40px;
-    left: -50px;
-    top: 10px;
-    border: 0;
-    object-fit: cover;
-}</style>';
-    resultAll = memoBefore + memoResult + memoAfter + memocss;
+    resultAll = memoBefore + memoResult + memoAfter;
     memoDom.insertAdjacentHTML('beforeend', resultAll);
 
     document.querySelector('button.button-load').textContent = '加载更多';
