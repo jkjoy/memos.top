@@ -83,7 +83,7 @@ function updateHTMl(data) {
 
         const relativeTime = getRelativeTime(new Date(item.created_at));
 
-        memoResult += ` <div class=memos_avatar><img src=${item.account.avatar} class=memos_avatar><div>
+        memoResult += ` 
         <li class="timeline">
         <div class="memos__content">
             <div class="memos__text">
@@ -112,7 +112,20 @@ function updateHTMl(data) {
 
     const memoBefore = '<ul class="">';
     const memoAfter = '</ul>';
-    resultAll = memoBefore + memoResult + memoAfter;
+    const memocss = '<style>.memos__content:before {
+    content: '';
+    position: absolute;
+    background: url('${item.account.avatar}') no-repeat;
+    background-size: contain;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    left: -50px;
+    top: 10px;
+    border: 0;
+    object-fit: cover;
+}</style>';
+    resultAll = memoBefore + memoResult + memoAfter + memocss;
     memoDom.insertAdjacentHTML('beforeend', resultAll);
 
     document.querySelector('button.button-load').textContent = '加载更多';
