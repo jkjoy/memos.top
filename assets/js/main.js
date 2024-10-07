@@ -85,7 +85,7 @@ function updateHTMl(data) {
 
         memoResult += ` 
         <li class="timeline">
-        <div class="memos__content"><img src=${item.account.avatar}>
+        <div class="memos__content" style="--avatar-url: url('${item.account.avatar}')"> 
             <div class="memos__text">
                 <div class="memos__userinfo"><div> 
             ${item.account.display_name} 
