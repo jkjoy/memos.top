@@ -83,7 +83,7 @@ function updateHTMl(data) {
 
         const relativeTime = getRelativeTime(new Date(item.created_at));
 
-        memoResult += ` <img src=${item.account.avatar} class=memos_avatar>
+        memoResult += ` <div class=memos_avatar><img src=${item.account.avatar} class=memos_avatar><div>
         <li class="timeline">
         <div class="memos__content">
             <div class="memos__text">
