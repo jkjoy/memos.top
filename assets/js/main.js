@@ -2,7 +2,7 @@
 const memo = {
     host: 'https://demo.usememos.com/',
     limit: '10',
-    creatorId: '101',
+    userId: '101',
     domId: '#memos',
 };
 
@@ -16,7 +16,7 @@ if (typeof memos !== "undefined") {
 
 const limit = memo.limit;
 const memosHost = memo.host.replace(/\/$/, '');
-const memoUrl = `${memosHost}/api/v1/accounts/${memo.creatorId}/statuses?limit=${limit}&exclude_replies=true&only_public=true`;
+const memoUrl = `${memosHost}/api/v1/accounts/${memo.userId}/statuses?limit=${limit}&exclude_replies=true&only_public=true`;
 
 // 选择 DOM 元素
 const memoDom = document.querySelector(memo.domId);
