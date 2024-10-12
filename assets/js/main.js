@@ -70,7 +70,7 @@ function updateHTMl(data) {
 
             item.media_attachments.forEach(attachment => {
                 if (attachment.type === 'image') {
-                    imgUrl += `<div class="resimg"><img loading="lazy" src="${attachment.preview_url}" alt="${relativeTime}"/></div>`;
+                    imgUrl += `<div class="resimg"><img loading="lazy" src="${attachment.preview_url}"/></div>`;
                 }
             });
 
