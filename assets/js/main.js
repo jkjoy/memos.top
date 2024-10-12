@@ -75,7 +75,7 @@ function updateHTMl(data) {
             });
 
             if (imgUrl) {
-                memoContREG += `<div class="resource-wrapper"><div class="images-wrapper" style="display: flex; flex-wrap: wrap; gap: 10px;">${imgUrl}</div></div>`;
+                memoContREG += `<div class="resource-wrapper"><div class="images-wrapper">${imgUrl}</div></div>`;
             }
         }
 
