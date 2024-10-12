@@ -103,7 +103,6 @@ function updateHTMl(data) {
     memoDom.insertAdjacentHTML('beforeend', resultAll);
 
     // 初始化图片灯箱
-    // 获取所有 .timeline 元素
     const timelineElements = document.querySelectorAll('.timeline');
 
     // 遍历每个 .timeline 元素
@@ -116,9 +115,10 @@ function updateHTMl(data) {
 
         // 遍历每个 img 元素并初始化 ViewImage
         images.forEach(img => {
+            // 确保传递给 ViewImage.init 的是一个选择器字符串
             ViewImage.init(img);
         });
-    });   
+    }); 
 }
 
 // 相对时间计算
