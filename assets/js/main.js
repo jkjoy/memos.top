@@ -101,14 +101,18 @@ function updateHTMl(data) {
     const memoAfter = '</ul>';
     resultAll = memoBefore + memoResult + memoAfter;
     memoDom.insertAdjacentHTML('beforeend', resultAll);
-}
 
-// 图片灯箱
-window.ViewImage && ViewImage.init(`${memo.domId} img`);
+    // 初始化图片灯箱
+    if (window.ViewImage) {
+        data.forEach(item => {
+            ViewImage.init(`#${item.id} img`);
+        });
+    }
+}
 
 // 相对时间计算
 function getRelativeTime(date) {
-    const rtf = new Intl.RelativeTimeFormat(memo.language, { numeric: "auto", style: 'short' });
+    const rtf = new Intl.RelativeTimeFormat(memos.language, { numeric: "auto", style: 'short' });
     const now = new Date();
     const diff = now - date;
     const seconds = Math.floor(diff / 1000);
