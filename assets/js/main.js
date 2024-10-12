@@ -108,7 +108,7 @@ window.ViewImage && ViewImage.init(`${memo.domId} img`);
 
 // 相对时间计算
 function getRelativeTime(date) {
-    const rtf = new Intl.RelativeTimeFormat(zh-CN, { numeric: "auto", style: 'short' });
+    const rtf = new Intl.RelativeTimeFormat(memo.language, { numeric: "auto", style: 'short' });
     const now = new Date();
     const diff = now - date;
     const seconds = Math.floor(diff / 1000);
