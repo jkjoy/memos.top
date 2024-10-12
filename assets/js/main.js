@@ -103,11 +103,8 @@ function updateHTMl(data) {
     memoDom.insertAdjacentHTML('beforeend', resultAll);
 
     // 初始化图片灯箱
-    if (window.ViewImage) {
-        data.forEach(item => {
-            ViewImage.init(`#${item.id} img`);
-        });
-    }
+    window.ViewImage && ViewImage.init('.container img');
+    
 }
 
 // 相对时间计算
