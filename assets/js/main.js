@@ -5,7 +5,6 @@ const memo = {
     userId: '101',
     domId: '#memos',
 };
-
 if (typeof memos !== "undefined") {
     for (let key in memos) {
         if (memos[key]) {
@@ -13,26 +12,20 @@ if (typeof memos !== "undefined") {
         }
     }
 }
-
 const limit = memo.limit;
 const memosHost = memo.host.replace(/\/$/, '');
 const memoUrl = `${memosHost}/api/v1/accounts/${memo.userId}/statuses?limit=${limit}&exclude_replies=true&only_public=true`;
-
 // 选择 DOM 元素
 const memoDom = document.querySelector(memo.domId);
 if (!memoDom) {
     console.error(`Element with ID '${memo.domId}' not found.`);
 }
-
 // 插入 HTML
 function updateHTMl(data) {
     console.log('Data received:', data); // 调试信息
-
     let memoResult = "", resultAll = "";
-
     // 解析 TAG 标签，添加样式
     const TAG_REG = /#([^\s#]+?) /g;
-
     // 解析 Bilibili
     const BILIBILI_REG = /<a\shref="https:\/\/www\.bilibili\.com\/video\/((av[\d]{1,10})|(BV([\w]{10})))\/?">.*<\/a>/g;
     // 解析网易云音乐
@@ -47,13 +40,10 @@ function updateHTMl(data) {
     const YOUKU_REG = /<a\shref="https:\/\/v\.youku\.com\/.*\/id_([a-z|A-Z|0-9|==]+)\.html".*?>.*<\/a>/g;
     // 解析 YouTube
     const YOUTUBE_REG = /<a\shref="https:\/\/www\.youtube\.com\/watch\?v\=([a-z|A-Z|0-9]{11})\".*?>.*<\/a>/g;
-
     data.forEach((item, i) => {
         console.log('Processing item:', item); // 调试信息
-
         let memoContREG = item.content
             .replace(TAG_REG, "<span class='tag-span'><a rel='noopener noreferrer' href='#$1'>#$1</a></span>");
-
         memoContREG = marked.parse(memoContREG)
             .replace(BILIBILI_REG, "<div class='video-wrapper'><iframe src='//www.bilibili.com/blackboard/html5mobileplayer.html?bvid=$1&as_wide=1&high_quality=1&danmaku=0' scrolling='no' border='0' frameborder='no' framespacing='0' allowfullscreen='true' style='position:absolute;height:100%;width:100%;'></iframe></div>")
             .replace(YOUTUBE_REG, "<div class='video-wrapper'><iframe src='https://www.youtube.com/embed/$1' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='YouTube Video'></iframe></div>")
@@ -63,26 +53,21 @@ function updateHTMl(data) {
             .replace(SPOTIFY_REG, "<div class='spotify-wrapper'><iframe style='border-radius:12px' src='https://open.spotify.com/embed/$1/$2?utm_source=generator&theme=0' width='100%' frameBorder='0' allowfullscreen='' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'></iframe></div>")
             .replace(YOUKU_REG, "<div class='video-wrapper'><iframe src='https://player.youku.com/embed/$1' frameborder=0 'allowfullscreen'></iframe></div>")
             .replace(YOUTUBE_REG, "<div class='video-wrapper'><iframe src='https://www.youtube.com/embed/$1' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='YouTube Video'></iframe></div>");
-
         // 解析内置资源文件
         if (item.media_attachments && item.media_attachments.length > 0) {
             let imgUrl = '';
-
             item.media_attachments.forEach(attachment => {
                 if (attachment.type === 'image') {
                     imgUrl += `<div class="resimg"><img loading="lazy" src="${attachment.preview_url}"/></div>`;
                 }
             });
-
             if (imgUrl) {
                 memoContREG += `<div class="resource-wrapper"><div class="images-wrapper">${imgUrl}</div></div>`;
             }
         }
-
         const relativeTime = getRelativeTime(new Date(item.created_at));
-
         memoResult += ` 
-        <li class="timeline">
+        <li class="timeline" id="${item.id}">
         <div class="memos__content" style="--avatar-url: url('${item.account.avatar}')"> 
             <div class="memos__text">
                 <div class="memos__userinfo"><div> 
@@ -106,17 +91,14 @@ function updateHTMl(data) {
         </div> 
         </li>`;
     });
-
     const memoBefore = '<ul class="">';
     const memoAfter = '</ul>';
     resultAll = memoBefore + memoResult + memoAfter;
     memoDom.insertAdjacentHTML('beforeend', resultAll);
     //document.querySelector('button.button-load').textContent = '加载更多';
 }
-
 // 图片灯箱
-window.ViewImage && ViewImage.init('.container img');
-
+window.ViewImage && ViewImage.init('#${item.id} img');
 // 相对时间计算
 function getRelativeTime(date) {
     const rtf = new Intl.RelativeTimeFormat(memos.language, { numeric: "auto", style: 'short' });
@@ -143,7 +125,6 @@ function getRelativeTime(date) {
         return rtf.format(-seconds, 'second');
     }
 }
-
 // 获取数据并更新页面
 fetch(memoUrl)
     .then(response => response.json())
