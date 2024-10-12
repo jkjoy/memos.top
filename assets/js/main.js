@@ -103,8 +103,22 @@ function updateHTMl(data) {
     memoDom.insertAdjacentHTML('beforeend', resultAll);
 
     // 初始化图片灯箱
-    window.ViewImage && ViewImage.init('.resimg img');
-    
+    // 获取所有 .timeline 元素
+    const timelineElements = document.querySelectorAll('.timeline');
+
+    // 遍历每个 .timeline 元素
+    timelineElements.forEach(timeline => {
+        // 获取当前 .timeline 元素的 id
+        const timelineId = timeline.id;
+
+        // 选择当前 .timeline 元素下的所有 img 元素
+        const images = timeline.querySelectorAll('.resimg img');
+
+        // 遍历每个 img 元素并初始化 ViewImage
+        images.forEach(img => {
+            ViewImage.init(img);
+        });
+    });   
 }
 
 // 相对时间计算
