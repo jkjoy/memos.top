@@ -70,9 +70,7 @@ function updateHTMl(data) {
 
             item.media_attachments.forEach(attachment => {
                 if (attachment.type === 'image') {
-                    imgUrl += `<div class="resimg" style="flex: 1 1 calc(33.33% - 10px); overflow: hidden; position: relative; height: 200px;">
-                        <img loading="lazy" src="${attachment.preview_url}" style="width: 100%; height: 100%; object-fit: contain; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"/>
-                        </div>`;
+                    imgUrl += `<div class="resimg"><img loading="lazy" src="${attachment.preview_url}"/></div>`;
                 }
             });
 
