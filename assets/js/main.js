@@ -70,7 +70,7 @@ function updateHTMl(data) {
 
             item.media_attachments.forEach(attachment => {
                 if (attachment.type === 'image') {
-                    imgUrl += `<div class="resimg"><img loading="lazy" src="${attachment.preview_url}"/></div>`;
+                    imgUrl += `<div class="resimg"><img loading="lazy" src="${attachment.preview_url}" alt="${relativeTime}"/></div>`;
                 }
             });
 
@@ -111,7 +111,6 @@ function updateHTMl(data) {
     const memoAfter = '</ul>';
     resultAll = memoBefore + memoResult + memoAfter;
     memoDom.insertAdjacentHTML('beforeend', resultAll);
-
     //document.querySelector('button.button-load').textContent = '加载更多';
 }
 
@@ -121,10 +120,8 @@ window.ViewImage && ViewImage.init('.container img');
 // 相对时间计算
 function getRelativeTime(date) {
     const rtf = new Intl.RelativeTimeFormat(memos.language, { numeric: "auto", style: 'short' });
-
     const now = new Date();
     const diff = now - date;
-
     const seconds = Math.floor(diff / 1000);
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
