@@ -103,7 +103,7 @@ function updateHTMl(data) {
     memoDom.insertAdjacentHTML('beforeend', resultAll);
 
     // 初始化图片灯箱
-    window.ViewImage && ViewImage.init('.container img');
+    window.ViewImage && ViewImage.init('.resimg img');
     
 }
 
