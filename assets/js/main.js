@@ -114,7 +114,7 @@ function updateHTMl(data) {
     resultAll = memoBefore + memoResult + memoAfter;
     memoDom.insertAdjacentHTML('beforeend', resultAll);
 
-    document.querySelector('button.button-load').textContent = '加载更多';
+    //document.querySelector('button.button-load').textContent = '加载更多';
 }
 
 // 图片灯箱
