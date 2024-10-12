@@ -15,11 +15,13 @@ if (typeof memos !== "undefined") {
 const limit = memo.limit;
 const memosHost = memo.host.replace(/\/$/, '');
 const memoUrl = `${memosHost}/api/v1/accounts/${memo.userId}/statuses?limit=${limit}&exclude_replies=true&only_public=true`;
+
 // 选择 DOM 元素
 const memoDom = document.querySelector(memo.domId);
 if (!memoDom) {
     console.error(`Element with ID '${memo.domId}' not found.`);
 }
+
 // 插入 HTML
 function updateHTMl(data) {
     console.log('Data received:', data); // 调试信息
@@ -40,6 +42,7 @@ function updateHTMl(data) {
     const YOUKU_REG = /<a\shref="https:\/\/v\.youku\.com\/.*\/id_([a-z|A-Z|0-9|==]+)\.html".*?>.*<\/a>/g;
     // 解析 YouTube
     const YOUTUBE_REG = /<a\shref="https:\/\/www\.youtube\.com\/watch\?v\=([a-z|A-Z|0-9]{11})\".*?>.*<\/a>/g;
+
     data.forEach((item, i) => {
         console.log('Processing item:', item); // 调试信息
         let memoContREG = item.content
@@ -53,6 +56,7 @@ function updateHTMl(data) {
             .replace(SPOTIFY_REG, "<div class='spotify-wrapper'><iframe style='border-radius:12px' src='https://open.spotify.com/embed/$1/$2?utm_source=generator&theme=0' width='100%' frameBorder='0' allowfullscreen='' allow='autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture' loading='lazy'></iframe></div>")
             .replace(YOUKU_REG, "<div class='video-wrapper'><iframe src='https://player.youku.com/embed/$1' frameborder=0 'allowfullscreen'></iframe></div>")
             .replace(YOUTUBE_REG, "<div class='video-wrapper'><iframe src='https://www.youtube.com/embed/$1' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='YouTube Video'></iframe></div>");
+
         // 解析内置资源文件
         if (item.media_attachments && item.media_attachments.length > 0) {
             let imgUrl = '';
@@ -65,6 +69,7 @@ function updateHTMl(data) {
                 memoContREG += `<div class="resource-wrapper"><div class="images-wrapper">${imgUrl}</div></div>`;
             }
         }
+
         const relativeTime = getRelativeTime(new Date(item.created_at));
         memoResult += ` 
         <li class="timeline" id="${item.id}">
@@ -91,17 +96,19 @@ function updateHTMl(data) {
         </div> 
         </li>`;
     });
+
     const memoBefore = '<ul class="">';
     const memoAfter = '</ul>';
     resultAll = memoBefore + memoResult + memoAfter;
     memoDom.insertAdjacentHTML('beforeend', resultAll);
-    //document.querySelector('button.button-load').textContent = '加载更多';
 }
+
 // 图片灯箱
-window.ViewImage && ViewImage.init('#${item.id} img');
+window.ViewImage && ViewImage.init(`${memo.domId} img`);
+
 // 相对时间计算
 function getRelativeTime(date) {
-    const rtf = new Intl.RelativeTimeFormat(memos.language, { numeric: "auto", style: 'short' });
+    const rtf = new Intl.RelativeTimeFormat(zh-CN, { numeric: "auto", style: 'short' });
     const now = new Date();
     const diff = now - date;
     const seconds = Math.floor(diff / 1000);
@@ -125,8 +132,19 @@ function getRelativeTime(date) {
         return rtf.format(-seconds, 'second');
     }
 }
+
 // 获取数据并更新页面
-fetch(memoUrl)
-    .then(response => response.json())
-    .then(data => updateHTMl(data))
-    .catch(error => console.error('Error fetching data:', error));
+async function fetchDataAndUpdate() {
+    try {
+        const response = await fetch(memoUrl);
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        updateHTMl(data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+fetchDataAndUpdate();
