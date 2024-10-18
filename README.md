@@ -75,7 +75,7 @@ git clone https://github.com/jkjoy/memos.top
 
 ### 部署到 Vercel
 
-> Demo: <https://memos-demo.vercel.app/>
+> Demo:  https://memos-top-hazel.vercel.app/
 
 1. Fork 本仓库
 2. 按照 #[使用方法.2](#2-设置) 设置自己的 API
